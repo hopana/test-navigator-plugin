@@ -31,26 +31,26 @@ public class TestNavigatorConfigurable implements SearchableConfigurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        String suffixes = String.join(",", config.getTestClassSuffixes());
-        configPanel = new TestNavigatorConfigPanel(suffixes);
+        String prefixesOrSuffixes = String.join(",", config.getPrefixesOrSuffixes());
+        configPanel = new TestNavigatorConfigPanel(prefixesOrSuffixes);
         return configPanel.getPanel();
     }
 
     @Override
     public boolean isModified() {
-        String alreadyConfigured = StringUtils.listToString(config.getTestClassSuffixes());
-        return !configPanel.getSuffixes().equals(alreadyConfigured);
+        String alreadyConfigured = StringUtils.listToString(config.getPrefixesOrSuffixes());
+        return !configPanel.getPrefixesOrSuffixes().equals(alreadyConfigured);
     }
 
     @Override
     public void apply() {
-        String suffixes = configPanel.getSuffixes().replaceAll("\\s", "");
-        config.setTestClassSuffixes(StringUtils.stringToList(suffixes, ","));
+        String prefixesOrSuffixes = configPanel.getPrefixesOrSuffixes().replaceAll("\\s", "");
+        config.setPrefixesOrSuffixes(StringUtils.stringToList(prefixesOrSuffixes, ","));
     }
 
     @Override
     public void reset() {
-        configPanel.setSuffixes(StringUtils.listToString(config.getTestClassSuffixes()));
+        configPanel.setPrefixesOrSuffixes(StringUtils.listToString(config.getPrefixesOrSuffixes()));
     }
 
     @Override

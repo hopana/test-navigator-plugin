@@ -19,7 +19,6 @@ abstract class FileFinder {
     }
 
     public final Optional<PsiClass> findFile() {
-
         Project project = clazz.getProject();
         JavaPsiFacade javaPsiFacade = JavaPsiFacade.getInstance(project);
 

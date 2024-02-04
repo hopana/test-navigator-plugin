@@ -15,7 +15,7 @@ import java.util.List;
 public class TestNavigatorConfig implements PersistentStateComponent<TestNavigatorConfig> {
     private static final String DEFAULT_TEST_SUFFIX = "Test";
 
-    private List<String> testClassSuffixes;
+    private List<String> prefixesOrSuffixes;
 
     public TestNavigatorConfig() {
         setDefaultTestClassSuffixes();
@@ -37,15 +37,15 @@ public class TestNavigatorConfig implements PersistentStateComponent<TestNavigat
         return ServiceManager.getService(TestNavigatorConfig.class);
     }
 
-    public List<String> getTestClassSuffixes() {
-        return testClassSuffixes;
+    public List<String> getPrefixesOrSuffixes() {
+        return prefixesOrSuffixes;
     }
 
-    public void setTestClassSuffixes(List<String> testClassSuffixes) {
-        this.testClassSuffixes = testClassSuffixes;
+    public void setPrefixesOrSuffixes(List<String> prefixesOrSuffixes) {
+        this.prefixesOrSuffixes = prefixesOrSuffixes;
     }
 
     public void setDefaultTestClassSuffixes() {
-        this.testClassSuffixes = Lists.newArrayList(DEFAULT_TEST_SUFFIX);
+        this.prefixesOrSuffixes = Lists.newArrayList(DEFAULT_TEST_SUFFIX);
     }
 }

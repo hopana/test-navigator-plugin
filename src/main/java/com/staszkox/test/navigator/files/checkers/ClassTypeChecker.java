@@ -40,7 +40,7 @@ public class ClassTypeChecker {
 
         TestNavigatorConfig config = TestNavigatorConfig.getInstance();
         List<String> testSuffixes = config != null ?
-                config.getTestClassSuffixes() : Collections.emptyList();
+                config.getPrefixesOrSuffixes() : Collections.emptyList();
 
         return psiClass.getQualifiedName() != null && testSuffixes.stream()
                 .anyMatch(suffix -> psiClass.getQualifiedName().endsWith(suffix));

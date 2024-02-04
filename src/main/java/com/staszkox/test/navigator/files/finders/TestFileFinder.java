@@ -2,40 +2,36 @@ package com.staszkox.test.navigator.files.finders;
 
 import com.intellij.psi.PsiClass;
 import com.staszkox.test.navigator.configuration.TestNavigatorConfig;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * 查找给定源文件类的测试类
+ */
 public class TestFileFinder extends FileFinder {
 
-    public static TestFileFinder forClass(PsiClass sourceClass) {
-        return new TestFileFinder(sourceClass);
-    }
+	public static TestFileFinder forClass(PsiClass sourceClass) {
+		return new TestFileFinder(sourceClass);
+	}
 
-    private TestFileFinder(PsiClass sourceClass) {
-        super(sourceClass);
-    }
+	private TestFileFinder(PsiClass sourceClass) {
+		super(sourceClass);
+	}
 
-    @Override
-    protected List<String> getFileNamesForSearch() {
+	@Override
+	protected List<String> getFileNamesForSearch() {
+		TestNavigatorConfig configuration = TestNavigatorConfig.getInstance();
+		List<String> prefixesOrSuffixes = configuration != null ? configuration.getPrefixesOrSuffixes() : Collections.emptyList();
 
-        TestNavigatorConfig configuration = TestNavigatorConfig.getInstance();
-        List<String> testClassSuffixes = configuration != null ?
-                configuration.getTestClassSuffixes() : Collections.emptyList();
+		String qualifiedClassName = getBaseClass().getQualifiedName();
+		if (StringUtils.isBlank(qualifiedClassName)) {
+			return Collections.emptyList();
+		}
 
-        String qualifiedClassName = getBaseClass().getQualifiedName();
-
-        List<String> fileNamesForSearch = Collections.emptyList();
-
-        if (qualifiedClassName != null) {
-            
-            fileNamesForSearch = testClassSuffixes.stream()
-                    .map(suffix -> qualifiedClassName + suffix)
-                    .filter(fileForSearch -> !qualifiedClassName.equals(fileForSearch))
-                    .collect(Collectors.toList());
-        }
-
-        return fileNamesForSearch;
+        return prefixesOrSuffixes.stream()
+                    .collect(ArrayList::new, (l, e) -> {}, ArrayList::addAll);
     }
 }
